@@ -1,32 +1,50 @@
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
-  "output": {
-    "filename": "[name].pack.js"
+  mode: "development",
+  output: {
+    filename: "[name].pack.js",
+    path: path.resolve(__dirname, "dist"),
   },
-  "resolve": {
-    "extensions": [
-      ".js",
-      ".json"
-    ],
-    "alias": {}
+  resolve: {
+    extensions: [".js", ".json"],
+    alias: {},
   },
-  "module": {
-    "rules": [
+  module: {
+    rules: [
       {
-        "use": {
-          "loader": "babel-loader",
-          "options": {
-            "presets": [
-              "babel-preset-env",
-              "babel-preset-react"
-            ]
-          }
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
         },
-        "exclude": /node_modules/,
-        "test": /\.js$/
-      }
-    ]
+        exclude: /node_modules/,
+        test: /\.js$/,
+      },
+      {
+        test: /\.css$/, // Rule for handling CSS files
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
-  "entry": {
-    "index": "./index"
-  }
-}
+  entry: {
+    index: "./index",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./index.html",
+    }),
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    compress: true,
+    port: 9000,
+    open: true,
+    hot: true,
+  },
+  devtool: "inline-source-map",
+};
