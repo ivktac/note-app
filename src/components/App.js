@@ -6,7 +6,7 @@ import Split from "react-split";
 import { nanoid } from "nanoid";
 
 export default function App() {
-  const [notes, setNotes] = React.useState(
+  const [notes, setNotes] = React.useState(() =>
     JSON.parse(localStorage.getItem("notes")) || data,
   );
   const [currentNoteId, setCurrentNoteId] = React.useState(
