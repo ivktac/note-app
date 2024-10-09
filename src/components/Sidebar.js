@@ -12,6 +12,9 @@ export default function Sidebar(props) {
         <h4 className="text-snippet">
           {note.body.split("\n")[0].replace(/^#+/, "").trim() || "Untitled"}
         </h4>
+        <button className="delete-btn">
+          <i className="gg-trash trash-icon" />
+        </button>
       </div>
     </div>
   ));
