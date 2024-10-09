@@ -1,13 +1,12 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import Editor from "./Editor";
-import { data } from "../data";
 import Split from "react-split";
 import { nanoid } from "nanoid";
 
 export default function App() {
   const [notes, setNotes] = React.useState(
-    () => JSON.parse(localStorage.getItem("notes")) || data,
+    () => JSON.parse(localStorage.getItem("notes")) || [],
   );
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || "",
