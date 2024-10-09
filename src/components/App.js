@@ -6,8 +6,8 @@ import Split from "react-split";
 import { nanoid } from "nanoid";
 
 export default function App() {
-  const [notes, setNotes] = React.useState(() =>
-    JSON.parse(localStorage.getItem("notes")) || data,
+  const [notes, setNotes] = React.useState(
+    () => JSON.parse(localStorage.getItem("notes")) || data,
   );
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || "",
@@ -27,13 +27,19 @@ export default function App() {
   }
 
   function updateNote(text) {
-    setNotes((oldNotes) =>
-      oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
-          : oldNote;
-      }),
-    );
+    // Put the most recently-modified note at the top
+    setNotes((oldNotes) => {
+      const newNotes = [];
+      for (let i = 0; i < oldNotes.length; i++) {
+        const oldNote = oldNotes[i];
+        if (oldNote.id === currentNoteId) {
+          newNotes.unshift({ ...oldNote, body: text });
+        } else {
+          newNotes.push(oldNote);
+        }
+      }
+      return newNotes;
+    });
   }
 
   function findCurrentNote() {
